@@ -16,7 +16,7 @@ type Order struct {
 
 var orderQueue = make(chan *Order, 1000) // A channel acting as the queue
 var orders = make(map[string]*Order)     // Map to track orders by ID
-var mu sync.Mutex
+var mu sync.RWMutex
 
 func Worker() {
 	for order := range orderQueue {

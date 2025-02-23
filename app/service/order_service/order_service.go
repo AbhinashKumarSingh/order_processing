@@ -1,6 +1,8 @@
 package order_service
 
 import (
+	"fmt"
+
 	"example.com/m/v2/constants"
 	"example.com/m/v2/db/order_items_repo"
 	"example.com/m/v2/db/order_repo"
@@ -24,6 +26,9 @@ func CreateOrderService(input requests.OrderReq) error {
 		Status:      constants.Pending,
 	}
 	if err := order_repo.CreateOrder(orderCreate); err != nil {
+		mu.Lock()
+		delete(orders, input.OrderID) // Cleanup in-memory state
+		mu.Unlock()
 		log.Error().Err(err).Msgf("CreateOrderService-> Error creating order for orderID: %s", input.OrderID)
 		return err
 	}
@@ -37,11 +42,25 @@ func CreateOrderService(input requests.OrderReq) error {
 	}
 
 	if err := order_items_repo.CreateOrderItems(orderItems); err != nil {
+		mu.Lock()
+		delete(orders, input.OrderID) // Cleanup in-memory state
+		mu.Unlock()
 		log.Error().Err(err).Msgf("CreateOrderService-> Error creating order items for orderID: %s", input.OrderID)
 		return err
 	}
 
-	orderQueue <- order
+	select {
+	case orderQueue <- order:
+		log.Info().Msgf("Order %s added to queue", input.OrderID)
+	default:
+		log.Error().Msgf("Order queue full, dropping order: %s", input.OrderID)
+		log.Error().Msgf("Order queue full, dropping order: %s", input.OrderID)
+		mu.Lock()
+		delete(orders, input.OrderID) // Cleanup in-memory state
+		mu.Unlock()
+		return fmt.Errorf("order queue is full")
+		return fmt.Errorf("order queue is full")
+	}
 
 	return nil
 

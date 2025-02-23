@@ -21,19 +21,6 @@ func InitDB() {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 
-	// Open connection
-	// db, err := sql.Open("mysql", dsn)
-	// if err != nil {
-	// 	log.Fatal("Error opening DB:", err)
-	// }
-	// defer db.Close()
-
-	// // Ping the database to check connection
-	// err = db.Ping()
-	// if err != nil {
-	// 	log.Fatal("Error connecting to DB:", err)
-	// }
-
 	fmt.Println("Connected to MySQL database successfully!")
 
 }
