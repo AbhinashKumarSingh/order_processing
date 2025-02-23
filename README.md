@@ -3,9 +3,6 @@
 
 # Order Processing Backend System
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/yourusername/order-processing-backend)](https://goreportcard.com/report/github.com/yourusername/order-processing-backend)
-
 This repository contains a backend system for order processing, designed to manage and process orders in an e-commerce platform. It demonstrates proficiency in building modular, maintainable, and scalable systems, covering database design, queuing, distributed system fundamentals, and metrics reporting.
 
 ## Table of Contents
@@ -57,8 +54,8 @@ Build a backend system to manage and process orders in an e-commerce platform. T
 2.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/yourusername/order-processing-backend.git](https://www.google.com/search?q=https://github.com/yourusername/order-processing-backend.git)
-    cd order-processing-backend
+    git clone [https://github.com/AbhinashKumarSingh/order_processing.git]
+    cd order-processing
     ```
 
 3.  **Create the MySQL database and tables:**
